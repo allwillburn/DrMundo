@@ -207,7 +207,7 @@ OnTick(function (myHero)
       if Mix:Mode() == "LaneClear" then
       	  for _,closeminion in pairs(minionManager.objects) do
 	        if DrMundoMenu.LaneClear.Q:Value() and Ready(_Q) and ValidTarget(closeminion, 1000) then
-	        	CastSkillShot(closeminion, _Q)
+	        	CastSkillShot(_Q, closeminion)
                 end
 
                 if DrMundoMenu.LaneClear.W:Value() and Ready(_W) and ValidTarget(closeminion, 163) then
