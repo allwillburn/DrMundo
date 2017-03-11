@@ -141,7 +141,7 @@ OnTick(function (myHero)
             if DrMundoMenu.Combo.Q:Value() and Ready(_Q) and ValidTarget(target, 1000) then
                 local QPred = GetPrediction(target, MundoQ)
                        if QPred.hitChance > (DrMundoMenu.Combo.Qpred:Value() * 0.1) and not QPred:mCollision(1) then
-                                CastSkillShot(_Q,QPred.castPos)
+                                CastSkillShot(_Q,QPred.target)
                        end
                  end
 
