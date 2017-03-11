@@ -29,11 +29,14 @@ GetWebResultAsync("https://raw.githubusercontent.com/allwillburn/DrMundo/master/
 GetLevelPoints = function(unit) return GetLevel(unit) - (GetCastLevel(unit,0)+GetCastLevel(unit,1)+GetCastLevel(unit,2)+GetCastLevel(unit,3)) end
 local SetDCP, SkinChanger = 0
 
+local MundoQ = {delay = 250, range = 850, width = 60, speed = 2000}
+
 local DrMundoMenu = Menu("DrMundo", "DrMundo")
 
 DrMundoMenu:SubMenu("Combo", "Combo")
 
 DrMundoMenu.Combo:Boolean("Q", "Use Q in combo", true)
+DrMundoMenu.Combo:Slider("Qpred", "Q Hit Chance", 3,0,10,1)
 DrMundoMenu.Combo:Boolean("W", "Use W in combo", true)
 DrMundoMenu.Combo:Boolean("E", "Use E in combo", true)
 DrMundoMenu.Combo:Boolean("R", "Use R in combo", true)
@@ -130,15 +133,16 @@ OnTick(function (myHero)
 			 CastTargetSpell(target, Cutlass)
             end
 
-            if DrMundoMenu.Combo.E:Value() and Ready(_E) and ValidTarget(target, 150) then
+            if DrMundoMenu.Combo.E:Value() and Ready(_E) and ValidTarget(target, 200) then
 			 CastSpell(_E)
 	    end
 
             if DrMundoMenu.Combo.Q:Value() and Ready(_Q) and ValidTarget(target, 1000) then
-		     if target ~= nil then 
-                         CastSkillShot(_Q, target)
-                     end
-            end
+                local QPred = GetPrediction(target,MundoQ)
+                       if QPred.hitChance > (DrMundoMenu.Combo.Qpred:Value() * 0.1) and not QPred:mCollision(1) then
+                                 CastSkillShot(_Q,QPred.castPos)
+                       end
+                 end
 
             if DrMundoMenu.Combo.Tiamat:Value() and Tiamat > 0 and Ready(Tiamat) and ValidTarget(target, 350) then
 			CastSpell(Tiamat)
