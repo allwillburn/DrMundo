@@ -30,7 +30,7 @@ GetWebResultAsync("https://raw.githubusercontent.com/allwillburn/DrMundo/master/
 GetLevelPoints = function(unit) return GetLevel(unit) - (GetCastLevel(unit,0)+GetCastLevel(unit,1)+GetCastLevel(unit,2)+GetCastLevel(unit,3)) end
 local SetDCP, SkinChanger = 0
 
-local MundoQ = {delay = 250, range = 850, width = 60, speed = 2000}
+local MundoQ = {delay = 250, range = 1000, width = 60, speed = 2000}
 
 local DrMundoMenu = Menu("DrMundo", "DrMundo")
 
@@ -141,7 +141,7 @@ OnTick(function (myHero)
             if DrMundoMenu.Combo.Q:Value() and Ready(_Q) and ValidTarget(target, 1000) then
                 local QPred = GetPrediction(target,MundoQ)
                        if QPred.hitChance > (DrMundoMenu.Combo.Qpred:Value() * 0.1) and not QPred:mCollision(1) then
-                                CastSkillShot(_Q, target)
+                                CastSkillShot(_Q,QPred.castPos)
                        end
                  end
 
